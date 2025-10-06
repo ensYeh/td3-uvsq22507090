@@ -1,0 +1,5 @@
+193.51.25.12 ecampus.uvsq.fr
+193.51.31.154 poste.uvsq.fr
+193.51.31.90 www.uvsq.fr
+192.168.1.1 machine1.local
+

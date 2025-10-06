@@ -17,6 +17,7 @@ public class Dns {
         if (fileName == null) {
             throw new IllegalArgumentException("Property 'dnsfile' not found");
         }
+        
         this.dataBaseFile = Path.of(fileName);
         if (Files.exists(dataBaseFile)) {
             List<String> lines = Files.readAllLines(dataBaseFile);
@@ -24,12 +25,12 @@ public class Dns {
                 if (ligne.isBlank() || ligne.isEmpty()) {
                     continue;
                 }
-                String[] parts = ligne.split(" ");
+                String[] parts = ligne.split("\\s+");
                 if (parts.length != 2) {
-                    throw new IllegalArgumentException("Invalid line format: " + ligne);
+                    continue;
                 }
-                NomMachine nomMachine = new NomMachine(parts[0]);
-                AdresseIP adresseIP = new AdresseIP(parts[1]);
+                NomMachine nomMachine = new NomMachine(parts[1]);
+                AdresseIP adresseIP = new AdresseIP(parts[0]);
                 DnsItem item = new DnsItem(nomMachine, adresseIP);
                 items.add(item);
             }
@@ -67,7 +68,7 @@ public class Dns {
             throw new IllegalArgumentException("Item with same machine name or IP address already exists");
         }
         items.add(newItem);
-        byte[] line = (nomMachine.getNom() + " " + adresseIP.getIp() + System.lineSeparator()).getBytes();
-        Files.write(dataBaseFile, line);
+        byte[] line = (adresseIP.getIp() + " " + nomMachine.getNom() + System.lineSeparator()).getBytes();
+        Files.write(dataBaseFile, line,StandardOpenOption.CREATE ,StandardOpenOption.APPEND);
     }
 }
