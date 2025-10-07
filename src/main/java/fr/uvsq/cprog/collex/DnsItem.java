@@ -13,4 +13,8 @@ public AdresseIP getAdresseIP() {
 public NomMachine getNomMachine() {
     return nomMachine;
 }
+@Override
+public String toString() {
+    return adresseIP.toString() + " " + nomMachine.toString();
+}
 }
