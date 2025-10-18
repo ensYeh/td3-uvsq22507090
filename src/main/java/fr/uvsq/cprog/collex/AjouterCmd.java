@@ -5,7 +5,7 @@ import java.io.IOException;
 public class AjouterCmd implements Commande {
    String nomMachine;
     String adresseIP;
-    public AjouterCmd(String nomMachine, String adresseIP) {
+    public AjouterCmd(String adresseIP, String nomMachine) {
        this.nomMachine = nomMachine;
         this.adresseIP = adresseIP;
     }

@@ -20,5 +20,4 @@ public class ChercherDomaine implements Commande {
             }
         }
     }
-
 }

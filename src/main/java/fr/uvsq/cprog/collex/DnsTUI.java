@@ -7,7 +7,7 @@ public class DnsTUI {
 
 
     public Commande nextCommande(){
-        System.out.println("> ");
+        System.out.print("> ");
         String input = in.nextLine();
         String[] parts = input.split("\\s+");
         if (parts.length == 0) {

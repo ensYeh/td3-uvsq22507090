@@ -9,6 +9,7 @@ public class DnsApp {
     }
     void run (){
         while (true) {
+            System.out.println("enter command : ");
            Commande cmd = tui.nextCommande();
            if (cmd == null) {
                tui.affiche("Commande inconnue");

@@ -2,4 +2,4 @@
 193.51.31.154 poste.uvsq.fr
 193.51.31.90 www.uvsq.fr
 192.168.1.1 machine1.local
-
+120.120.120.120 test.fr

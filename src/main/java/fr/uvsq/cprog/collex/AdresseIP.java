@@ -22,4 +22,8 @@ public class AdresseIP {
     public int hashCode() {
         return ip.hashCode();
     }
+    @Override
+    public String toString() {
+        return ip;
+    }
 }
