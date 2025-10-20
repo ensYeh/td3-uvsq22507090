@@ -3,8 +3,10 @@ package fr.uvsq.cprog.collex;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.*;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -12,6 +14,7 @@ import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Scanner;
 
 import org.junit.After;
 import org.junit.Test;
@@ -169,5 +172,71 @@ public class CmdTest {
         }
 
         Files.write(Paths.get(FILE_PATH), updated, StandardOpenOption.TRUNCATE_EXISTING);
+    }
+    @Test
+    public void testDnsApp() throws Exception {
+        DnsTUI mockTui = mock(DnsTUI.class);
+        Dns dns = mock(Dns.class);
+        Commande cmd2 = mock(ExitCmd.class);
+        when(mockTui.nextCommande()).thenReturn(cmd2);
+        DnsApp app = new DnsApp (dns, mockTui);
+        app.run();
+        verify(mockTui, atLeastOnce()).nextCommande();
+        verify(cmd2).execute(dns, mockTui);
+    }
+    @Test
+    public void testNextCommandeExit() {
+        String simulatedInput = "exit\n";
+        Scanner scanner = new Scanner(new ByteArrayInputStream(simulatedInput.getBytes()));
+        DnsTUI tui = new DnsTUI(scanner);
+
+        Commande cmd = tui.nextCommande();
+
+        assertNotNull(cmd);
+        assertTrue(cmd instanceof ExitCmd);
+    }
+     @Test
+    public void testNextCommandeChercheIp() {
+        String simulatedInput = "chercheip domaine1\n";
+        Scanner scanner = new Scanner(new ByteArrayInputStream(simulatedInput.getBytes()));
+        DnsTUI tui = new DnsTUI(scanner);
+
+        Commande cmd = tui.nextCommande();
+
+        assertNotNull(cmd);
+        assertTrue(cmd instanceof ChercherIp);
+    }
+     @Test
+    public void testNextCommandeChercheNom() {
+        String simulatedInput = "cherchenom 10.20.30.40\n";
+        Scanner scanner = new Scanner(new ByteArrayInputStream(simulatedInput.getBytes()));
+        DnsTUI tui = new DnsTUI(scanner);
+
+        Commande cmd = tui.nextCommande();
+
+        assertNotNull(cmd);
+        assertTrue(cmd instanceof ChercherNom);
+    }
+     @Test
+    public void testNextCommandeChercheDmaine() {
+        String simulatedInput = "cherchedomaine domaine1\n";
+        Scanner scanner = new Scanner(new ByteArrayInputStream(simulatedInput.getBytes()));
+        DnsTUI tui = new DnsTUI(scanner);
+
+        Commande cmd = tui.nextCommande();
+
+        assertNotNull(cmd);
+        assertTrue(cmd instanceof ChercherDomaine);
+    }
+     @Test
+    public void testNextCommandeAjoute() {
+        String simulatedInput = "ajoute 10.20.30.40 test.fr\n";
+        Scanner scanner = new Scanner(new ByteArrayInputStream(simulatedInput.getBytes()));
+        DnsTUI tui = new DnsTUI(scanner);
+
+        Commande cmd = tui.nextCommande();
+
+        assertNotNull(cmd);
+        assertTrue(cmd instanceof AjouterCmd);
     }
 }

@@ -3,8 +3,13 @@ package fr.uvsq.cprog.collex;
 import java.util.Scanner;
 
 public class DnsTUI {
-    Scanner in = new Scanner(System.in);
-
+    Scanner in;
+    public DnsTUI(){
+        in = new Scanner(System.in);
+    }
+    public DnsTUI(Scanner in) {
+        this.in = in;
+    }
 
     public Commande nextCommande(){
         System.out.print("> ");

@@ -7,6 +7,10 @@ public class DnsApp {
         dns = new Dns(properties);
         tui = new DnsTUI();
     }
+    public DnsApp (Dns dns, DnsTUI tui)throws Exception {
+        this.dns = dns;
+        this.tui = tui;
+    }
     void run (){
         while (true) {
             System.out.println("enter command : ");
