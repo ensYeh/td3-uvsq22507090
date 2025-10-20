@@ -101,7 +101,7 @@ public class CmdTest {
     when(dns.getItems("fr")).thenReturn(Arrays.asList(new DnsItem(new NomMachine("machine.fr"), new AdresseIP("20.30.40.50"))));
 
         // Exécution de la commande
-    Commande cmd = new ChercherDomaine("fr");
+    Commande cmd = new ChercherDomaine("fr", false);
     cmd.execute(dns, tui);
 
         // Vérification : DnsTUI doit afficher le bon texte
@@ -178,11 +178,13 @@ public class CmdTest {
         DnsTUI mockTui = mock(DnsTUI.class);
         Dns dns = mock(Dns.class);
         Commande cmd2 = mock(ExitCmd.class);
-        when(mockTui.nextCommande()).thenReturn(cmd2);
+        Commande cmd1 = mock(AjouterCmd.class);
+        when(mockTui.nextCommande()).thenReturn(cmd1,cmd2, null);
         DnsApp app = new DnsApp (dns, mockTui);
         app.run();
         verify(mockTui, atLeastOnce()).nextCommande();
         verify(cmd2).execute(dns, mockTui);
+        verify(cmd1).execute(dns, mockTui);
     }
     @Test
     public void testNextCommandeExit() {
@@ -208,7 +210,7 @@ public class CmdTest {
     }
      @Test
     public void testNextCommandeChercheNom() {
-        String simulatedInput = "cherchenom 10.20.30.40\n";
+        String simulatedInput = "10.20.30.40\n";
         Scanner scanner = new Scanner(new ByteArrayInputStream(simulatedInput.getBytes()));
         DnsTUI tui = new DnsTUI(scanner);
 
@@ -219,7 +221,7 @@ public class CmdTest {
     }
      @Test
     public void testNextCommandeChercheDmaine() {
-        String simulatedInput = "cherchedomaine domaine1\n";
+        String simulatedInput = "ls domaine1\n";
         Scanner scanner = new Scanner(new ByteArrayInputStream(simulatedInput.getBytes()));
         DnsTUI tui = new DnsTUI(scanner);
 
@@ -230,7 +232,7 @@ public class CmdTest {
     }
      @Test
     public void testNextCommandeAjoute() {
-        String simulatedInput = "ajoute 10.20.30.40 test.fr\n";
+        String simulatedInput = "add 10.20.30.40 test.fr\n";
         Scanner scanner = new Scanner(new ByteArrayInputStream(simulatedInput.getBytes()));
         DnsTUI tui = new DnsTUI(scanner);
 

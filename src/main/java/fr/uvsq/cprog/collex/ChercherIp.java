@@ -10,6 +10,11 @@ public class ChercherIp implements Commande {
     @Override
     public void execute(Dns dns, DnsTUI tui) {
         NomMachine nomMachine = new NomMachine(nomM);
+        DnsItem item = dns.getItem(nomMachine);
+         if (item == null) {
+              tui.affiche("Machine " + nomM + " inconnue");
+              return;
+         }
         String ip = dns.getItem(nomMachine).getAdresseIP().getIp();
         if (ip == null) {
             tui.affiche("Machine " + nomM + " inconnue");

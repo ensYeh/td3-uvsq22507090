@@ -14,43 +14,35 @@ public class DnsTUI {
     public Commande nextCommande(){
         System.out.print("> ");
         String input = in.nextLine();
-        String[] parts = input.split("\\s+");
-        if (parts.length == 0) {
-            return null;
-        }
+        String[] parts = input.split(" ");
         String cmd = parts[0];
-        if (cmd.equals("ajoute")) {
+        if (cmd.equals("add")) {
             if (parts.length < 3) {
                 System.out.println("Usage: ajoute <nom_machine> <adresse_ip>");
                 return null;
             }
             return new AjouterCmd( parts[1], parts[2]);
         }
-        else if (cmd.equals("chercheip")){
+        else if (cmd.equals("ls")){
             if (parts.length < 2){
-                System.out.println("Usage: chercheip <domaine>");
+                System.out.println("Usage: ls [-a] <domaine>");
                 return null;
             }
-            return new ChercherIp(parts[1]);
-        }
-        else if (cmd.equals("cherchenom")){
-            if (parts.length < 2){
-                System.out.println("Usage: cherchenom <adresse_ip>");
-                return null;
-            }
-            return new ChercherNom(parts[1]);
-        }
-        else if (cmd.equals("cherchedomaine")){
-            if (parts.length < 2){
-                System.out.println("Usage: cherchedomaine <domaine>");
-                return null;
-            }
-            return new ChercherDomaine(parts[1]);
+            if (parts.length == 2)
+                return new ChercherDomaine(parts[1], false);
+            else if (parts.length ==3 && parts[1].equals("-a"))
+                return new ChercherDomaine(parts[2], true);
         }
         else if (cmd.equals("exit")){
             return new ExitCmd();
         }
-        return null;
+        else {
+            if (cmd.matches("\\b(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\b")){
+                return new ChercherNom(cmd);
+            }
+            return new ChercherIp(cmd);
+            }
+            return null;
     }
 
     public void affiche (String message){

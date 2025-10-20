@@ -17,4 +17,10 @@ public NomMachine getNomMachine() {
 public String toString() {
     return adresseIP.toString() + " " + nomMachine.toString();
 }
+public String getIp() {
+    return adresseIP.getIp();
+}
+public String getNom() {
+    return nomMachine.getNom();
+}
 }
